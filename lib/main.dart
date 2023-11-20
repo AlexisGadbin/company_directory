@@ -1,5 +1,4 @@
-import 'package:company_directory/ui/screens/add_company.dart';
-import 'package:company_directory/ui/screens/home.dart';
+import 'package:company_directory/router.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,10 +17,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: '/home',
-        routes: {
-          '/home': (context) => const Home(),
-          '/add-company': (context) => AddCompany()
-        });
+        initialRoute: AppRouter.homePage,
+        routes: AppRouter.routes);
   }
 }

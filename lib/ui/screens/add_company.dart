@@ -1,11 +1,16 @@
+import 'package:company_directory/models/address.dart';
 import 'package:company_directory/models/company.dart';
+import 'package:company_directory/router.dart';
 import 'package:flutter/material.dart';
 
 class AddCompany extends StatelessWidget {
   AddCompany({Key? key}) : super(key: key);
 
   final TextEditingController _textFieldController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+
   final GlobalKey<FormState> _formKey = GlobalKey();
+  Address? _address;
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +59,39 @@ class AddCompany extends StatelessWidget {
                     ),
                   ),
                 ),
+                TextField(
+                  readOnly: true,
+                  controller: _addressController,
+                  cursorColor: Colors.blue,
+                  decoration: const InputDecoration(
+                    hintText: "Addresse de l'entreprise",
+                    prefixIcon: Icon(
+                      Icons.location_on,
+                      color: Colors.grey,
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue, width: 1),
+                    ),
+                  ),
+                  onTap: () async {
+                    _address = await Navigator.of(context)
+                        .pushNamed(AppRouter.searchAddress) as Address?;
+
+                    if (_address != null) {
+                      _addressController.text =
+                          "${_address!.city}, ${_address!.postcode}";
+                    }
+                  },
+                ),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      Navigator.of(context)
-                          .pop(Company(_textFieldController.text));
+                      Navigator.of(context).pop(Company(
+                          _textFieldController.text,
+                          _address != null ? _address! : Address("", "", "")));
                     }
                   },
                   style: ElevatedButton.styleFrom(

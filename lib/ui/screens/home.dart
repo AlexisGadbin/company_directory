@@ -1,4 +1,6 @@
+import 'package:company_directory/models/address.dart';
 import 'package:company_directory/models/company.dart';
+import 'package:company_directory/router.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -10,9 +12,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final List<Company> _companies = [
-    const Company("Entreprise 1"),
-    const Company("Entreprise 2"),
-    const Company("Entreprise 3"),
+    Company("Entreprise 1", Address("Rue 1", "Ville 1", "Code postal 1")),
+    Company("Entreprise 2", Address("Rue 2", "Ville 2", "Code postal 2")),
+    Company("Entreprise 3", Address("Rue 3", "Ville 3", "Code postal 3")),
   ];
 
   @override
@@ -29,8 +31,11 @@ class _HomeState extends State<Home> {
         child: ListView.builder(
           itemCount: _companies.length,
           itemBuilder: (context, index) {
+            final company = _companies[index];
             return ListTile(
-              title: Text(_companies[index].name),
+              title: Text(company.name),
+              subtitle:
+                  Text("${company.address.city} ${company.address.postcode}"),
               onTap: () {},
             );
           },
@@ -38,8 +43,8 @@ class _HomeState extends State<Home> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final Company? company =
-              await Navigator.of(context).pushNamed('/add-company') as Company?;
+          final Company? company = await Navigator.of(context)
+              .pushNamed(AppRouter.addCompanyPage) as Company?;
           if (company != null) {
             setState(() {
               _companies.add(company);
