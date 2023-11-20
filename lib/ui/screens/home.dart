@@ -10,9 +10,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final List<Company> _companies = [
-    const Company(0, "Entreprise 1"),
-    const Company(1, "Entreprise 2"),
-    const Company(2, "Entreprise 3"),
+    const Company("Entreprise 1"),
+    const Company("Entreprise 2"),
+    const Company("Entreprise 3"),
   ];
 
   @override

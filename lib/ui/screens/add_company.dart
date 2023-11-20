@@ -58,7 +58,7 @@ class AddCompany extends StatelessWidget {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       Navigator.of(context)
-                          .pop(Company(0, _textFieldController.text));
+                          .pop(Company(_textFieldController.text));
                     }
                   },
                   style: ElevatedButton.styleFrom(
