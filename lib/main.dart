@@ -1,4 +1,5 @@
 import 'package:company_directory/blocs/company_cubit.dart';
+import 'package:company_directory/repositories/preferences_repository.dart';
 import 'package:company_directory/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +9,9 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Instanciation du Cubit
-  final CompanyCubit companyCubit = CompanyCubit();
+  final CompanyCubit companyCubit = CompanyCubit(
+    PreferencesRepository(),
+  );
 
   // Chargement des entreprises
   companyCubit.loadCompanies();
