@@ -1,8 +1,22 @@
+import 'package:company_directory/blocs/company_cubit.dart';
 import 'package:company_directory/router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(const MyApp());
+  // Pour pouvoir utiliser les SharePreferences avant le runApp
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Instanciation du Cubit
+  final CompanyCubit companyCubit = CompanyCubit();
+
+  // Chargement des entreprises
+  companyCubit.loadCompanies();
+
+  runApp(BlocProvider<CompanyCubit>(
+    create: (_) => companyCubit,
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

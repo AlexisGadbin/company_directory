@@ -1,7 +1,9 @@
+import 'package:company_directory/blocs/company_cubit.dart';
 import 'package:company_directory/models/address.dart';
 import 'package:company_directory/models/company.dart';
 import 'package:company_directory/router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddCompany extends StatelessWidget {
   AddCompany({Key? key}) : super(key: key);
@@ -88,10 +90,11 @@ class AddCompany extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.of(context).pop(Company(
-                          _textFieldController.text,
-                          _address != null ? _address! : Address("", "", "")));
+                    if (_formKey.currentState!.validate() && _address != null) {
+                      final Company company =
+                          Company(_textFieldController.text, _address!);
+                      context.read<CompanyCubit>().addCompany(company);
+                      Navigator.of(context).pop();
                     }
                   },
                   style: ElevatedButton.styleFrom(

@@ -1,7 +1,8 @@
-import 'package:company_directory/models/address.dart';
+import 'package:company_directory/blocs/company_cubit.dart';
 import 'package:company_directory/models/company.dart';
 import 'package:company_directory/router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -11,12 +12,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<Company> _companies = [
-    Company("Entreprise 1", Address("Rue 1", "Ville 1", "Code postal 1")),
-    Company("Entreprise 2", Address("Rue 2", "Ville 2", "Code postal 2")),
-    Company("Entreprise 3", Address("Rue 3", "Ville 3", "Code postal 3")),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,11 +22,12 @@ class _HomeState extends State<Home> {
         ),
         backgroundColor: Colors.blue,
       ),
-      body: Container(
-        child: ListView.builder(
-          itemCount: _companies.length,
+      body: BlocBuilder<CompanyCubit, List<Company>>(
+          builder: (conext, companies) {
+        return ListView.builder(
+          itemCount: companies.length,
           itemBuilder: (context, index) {
-            final company = _companies[index];
+            final company = companies[index];
             return ListTile(
               title: Text(company.name),
               subtitle:
@@ -39,17 +35,11 @@ class _HomeState extends State<Home> {
               onTap: () {},
             );
           },
-        ),
-      ),
+        );
+      }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final Company? company = await Navigator.of(context)
-              .pushNamed(AppRouter.addCompanyPage) as Company?;
-          if (company != null) {
-            setState(() {
-              _companies.add(company);
-            });
-          }
+        onPressed: () {
+          Navigator.of(context).pushNamed(AppRouter.addCompanyPage);
         },
         backgroundColor: Colors.blue,
         shape: const CircleBorder(),
